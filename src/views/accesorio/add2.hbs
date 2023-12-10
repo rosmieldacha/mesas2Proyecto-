@@ -1,0 +1,51 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h3 class="text-uppercase">Registrar nuevo accesorios</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/add2" method="post">
+                    <div class="input-group mt-2">
+                        <label for="nombre" class="input-group-text">Nombre</label>
+                        <input class="form-control" type="text" name="nombre" id="nombre" autofocus required>
+                    </div>
+                     <div class="input-group mt-2">
+                        <label for="codigo" class="input-group-text">Codigo</label>
+                        <input class="form-control" type="num" name="codigo" id="codigo" required>
+                    </div>
+                     <div class="input-group mt-2">
+                        <label for="marca" class="input-group-text">Marca</label>
+                        <input class="form-control" type="varchar" name="marca" id="marca" required>
+                    </div>
+                    <div class="input-group mt-2">
+                        <label for="detalle" class="input-group-text">Detalle</label>
+                        <input class="form-control" type="varchar" name="detalle" id="detalle" required>
+                    </div>
+                     <div class="input-group mt-2">
+                        <label for="precio" class="input-group-text">Precio</label>
+                        <input class="form-control" type="num" name="precio" id="precio" required>
+                    </div>
+                    <div class="form-group mt-4 d-grid gap-2">
+                        <button class="btn btn-success">Crear</button>
+                        <a href="/index" class="btn btn-secondary" id="cancelButton">Cancelar</a>
+                    </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const cancelButton = document.getElementById("cancelButton");
+    // Agregar un evento de clic al botón "Cancelar"
+    cancelButton.addEventListener("click", function (event) {
+        // Mostrar un mensaje de confirmación
+    const confirmCancel = window.confirm("¿Realmente desea cancelar?");
+        // Si el usuario hace clic en "Aceptar" en el mensaje de confirmación, se redirigirá a la página de inicio
+    if (!confirmCancel) {
+        event.preventDefault(); // Evitar la redirección predeterminada
+     }
+    });
+</script>

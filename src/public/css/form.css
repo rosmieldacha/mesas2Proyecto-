@@ -1,0 +1,10 @@
+.input{
+    width: 100%;
+    display: block;
+    background: #f3f3f3;
+    padding: 20px;
+    border: none;
+    font-size: var(--fs-20);
+    margin-bottom: 15px;
+
+}

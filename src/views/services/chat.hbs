@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      color-scheme: light dark;
+    }
+
+    body {
+      margin: 2;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      display: grid;
+      place-content: center;
+      height: 100vh;
+      padding: 36px 36px 100px 36px;
+      grid-template-rows: 1fr;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow-y: scroll;
+      height: 100%;
+      scroll-behavior: smooth;
+      padding-bottom: 48px;
+    }
+
+    #messages>li {
+      padding: .5rem 1rem;
+    }
+
+    #messages>li:nth-child(odd) {
+      background: #000;
+    }
+
+    #chat {
+      border: 1px solid #000000;
+      border-radius: 8px; /* Increased border-radius for a different look */
+      overflow: hidden;
+      width: 350px;
+      height: 100%;
+      position: relative;
+    }
+
+    #form {
+      bottom: 0;
+      display: flex;
+      height: 60px; /* Increased height for a larger form */
+      left: 0;
+      padding: 8px; /* Increased padding for spacing */
+      position: absolute;
+      right: 0;
+      background-color: #f0f0f0; /* Light background color */
+    }
+
+    #input {
+      border-radius: 4px; /* Smaller border-radius for input */
+      border: 1px solid #ccc; /* Lighter border color */
+      flex: 1;
+      margin: 8px; /* Increased margin for spacing */
+      padding: 8px;
+    }
+
+    #input:focus {
+      outline: 0;
+      border-color: #09f; /* Highlight border color on focus */
+    }
+
+    #form>button {
+      background: #09f;
+      color: #fff;
+      border: 0;
+      margin: 8px; /* Increased margin for spacing */
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #form>button:hover {
+      background: #0cf;
+    }
+
+      .message-sender-1 {
+      background-color: #3498db; /* Color de fondo para mensajes del usuario 1 */
+      color: #fff; /* Color del texto para mensajes del usuario 1 */
+    }
+
+    .message-sender-2 {
+      background-color: #e74c3c; /* Color de fondo para mensajes del usuario 2 */
+      color: #fff; /* Color del texto para mensajes del usuario 2 */
+    }
+  </style>
+</head>
+
+<body>
+  
+  <section id="chat">
+    <ul id="chat-messages"></ul>
+    <div id="form">
+      <input type="text" id="chat-input" placeholder="Type a message" autocomplete="off" />
+      <button onclick="sendChatMessage()">Enviar</button>
+    </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+const socket = io();
+
+    socket.on('user connected', (userId) => {
+      console.log(Usuario ${userId} conectado);
+    });
+
+    socket.on('user disconnected', (userId) => {
+      console.log(Usuario ${userId} desconectado);
+    });
+
+    socket.on('chat message', ({ userId, msg }) => {
+      $('#chat-messages').append($('<li>').text(Usuario ${userId}: ${msg}));
+    });
+
+    function sendChatMessage() {
+      const message = $('#chat-input').val();
+      socket.emit('chat message', message);
+      $('#chat-input').val('');
+    }
+
+    function toggleChat() {
+      $('#chat').toggle();
+    }
+  </script>
+</body>
+
+</html>
