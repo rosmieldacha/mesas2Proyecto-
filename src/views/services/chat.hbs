@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
+  <title>miduChat</title>
   <style>
     *,
     *::before,
@@ -118,17 +118,17 @@
   <script>
 const socket = io();
 
-    socket.on('user connected', (userId) => {
-      console.log(Usuario ${userId} conectado);
-    });
+   socket.on('user connected', (userId) => {
+  console.log(`Usuario ${userId} conectado`);
+});
 
     socket.on('user disconnected', (userId) => {
-      console.log(Usuario ${userId} desconectado);
-    });
+  console.log(`Usuario ${userId} desconectado`);
+});
 
-    socket.on('chat message', ({ userId, msg }) => {
-      $('#chat-messages').append($('<li>').text(Usuario ${userId}: ${msg}));
-    });
+  socket.on('chat message', ({ userId, msg }) => {
+  $('#chat-messages').append($('<li>').text(`Usuario ${userId}: ${msg}`));
+});
 
     function sendChatMessage() {
       const message = $('#chat-input').val();
@@ -137,7 +137,7 @@ const socket = io();
     }
 
     function toggleChat() {
-      $('#chat').toggle();
+      $('#chat').toggle('');
     }
   </script>
 </body>

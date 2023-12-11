@@ -10,26 +10,39 @@ import clientesRoutes from './routes/clientes.routes.js';
 import accesorioRoutes from './routes/accesorio.routes.js';
 import indexRoutes from './routes/index.routes.js';
 import { Server } from 'socket.io';
-import { createServer } from 'node:http';
+import http from 'http';
 
 
 
 
 const app = express();
-const server = createServer(app);
-const io = new Server(server);
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const server = http.createServer(app);
+const io = new Server(server);
 
 
-io.on('Connection', (socket)=>{
-  console.log('a user has connected')
 
-  socket.on('disconnecte', ()=>{
-    console.log('un usuario desconectado')
-  })
-})
+const socketToUsername = {};
 
+io.on('connection', (socket) => {
+  console.log('Usuario conectado');
 
+  socket.on('set username', (username) => {
+    socketToUsername[socket.id] = username;
+    io.emit('user joined', { userId: socket.id, username });
+  });
+
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', { userId: socket.id, username: socketToUsername[socket.id], msg });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Usuario desconectado');
+    const username = socketToUsername[socket.id];
+    delete socketToUsername[socket.id];
+    io.emit('user disconnected', { userId: socket.id, username });
+  });
+});
 
 
 app.use(session({
@@ -68,10 +81,10 @@ app.get('/', (req, res) => {
 app.use('/', empleadosRoutes);
 app.use('/', accesorioRoutes);
 app.use('/', clientesRoutes);
-app.use('/',indexRoutes);
+app.use('/', indexRoutes);
 
 
 app.use(express.static(join(__dirname, 'public')));
 
-app.listen(app.get('port'), () =>
+server.listen(app.get('port'), () =>
     console.log('Server listening on port', app.get('port')));
